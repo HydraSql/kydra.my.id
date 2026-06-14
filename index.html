@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KY &mdash; Crypto Enthusiast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060610;--surface:#0d0d20;--card:#12122a;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
+  --gold:#f0c040;--purple:#8b5cf6;--green:#22c55e;
+  --blue:#3b82f6;--red:#ef4444;
+  --text:#e8e8ff;--dim:#8888b0;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:15px/1.6 "Inter",sans-serif;overflow-x:hidden}
+
+/* NOISE OVERLAY */
+body::before{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:0}
+
+/* GRID BG */
+body::after{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;padding:16px 0;border-bottom:1px solid transparent;transition:all .3s;backdrop-filter:blur(0)}
+nav.scrolled{background:rgba(6,6,16,.9);border-bottom-color:var(--border);backdrop-filter:blur(20px)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font:700 18px "Space Grotesk",sans-serif;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+.nav-logo .dot{width:8px;height:8px;background:var(--purple);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.6)}50%{box-shadow:0 0 0 8px rgba(139,92,246,0)}}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(--dim);text-decoration:none;font:500 13px "Inter",sans-serif;letter-spacing:.04em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{padding:8px 18px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.35);border-radius:8px;color:var(--purple);font:600 13px "Inter",sans-serif;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:rgba(139,92,246,.25);border-color:var(--purple)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 24px 60px;position:relative;z-index:1}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(139,92,246,.12) 0%,transparent 70%);pointer-events:none}
+.hero-content{max-width:720px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);border-radius:20px;font:500 12px "Inter",sans-serif;color:var(--purple);letter-spacing:.06em;text-transform:uppercase;margin-bottom:28px}
+.hero-badge::before{content:"";width:6px;height:6px;background:var(--purple);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.hero h1{font:700 clamp(42px,8vw,72px)/1.1 "Space Grotesk",sans-serif;letter-spacing:-.02em;margin-bottom:20px}
+.hero h1 span{background:linear-gradient(135deg,#8b5cf6,#c084fc,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font:400 18px/1.7 "Inter",sans-serif;color:var(--dim);max-width:540px;margin:0 auto 36px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{padding:13px 28px;background:var(--purple);border:none;border-radius:10px;font:600 14px "Inter",sans-serif;color:#fff;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:#7c3aed;box-shadow:0 0 24px rgba(139,92,246,.4);transform:translateY(-1px)}
+.btn-ghost{padding:13px 28px;background:transparent;border:1px solid var(--border2);border-radius:10px;font:600 14px "Inter",sans-serif;color:var(--text);cursor:pointer;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost:hover{border-color:var(--purple);color:var(--purple);transform:translateY(-1px)}
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--dim);font-size:11px;letter-spacing:.1em;text-transform:uppercase;animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* STATS */
+.stats{padding:60px 24px;position:relative;z-index:1}
+.stats-inner{max-width:1100px;margin:0 auto}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border-radius:14px;overflow:hidden}
+.stat-card{background:var(--surface);padding:28px 24px;text-align:center;transition:background .2s}
+.stat-card:hover{background:var(--card)}
+.stat-num{font:700 36px "Space Grotesk",sans-serif;background:linear-gradient(135deg,var(--purple),#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.stat-label{font:400 12px "Inter",sans-serif;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
+
+/* SECTION */
+section{padding:100px 24px;position:relative;z-index:1}
+.section-label{font:600 11px "Inter",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin-bottom:12px}
+.section-title{font:700 clamp(28px,5vw,44px)/1.15 "Space Grotesk",sans-serif;letter-spacing:-.02em;margin-bottom:16px}
+.section-sub{color:var(--dim);font-size:16px;max-width:520px;margin-bottom:48px}
+.container{max-width:1100px;margin:0 auto}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-text p{color:var(--dim);line-height:1.8;margin-bottom:16px}
+.about-text p strong{color:var(--text)}
+.about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tag{padding:6px 14px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:20px;font:500 12px "Inter",sans-serif;color:var(--purple)}
+.about-visual{position:relative}
+.ky-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+.ky-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,92,246,.06),transparent);pointer-events:none}
+.ky-avatar{width:80px;height:80px;background:linear-gradient(135deg,#8b5cf6,#c084fc);border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 32px "Space Grotesk",sans-serif;color:#fff;margin-bottom:16px}
+.ky-name{font:700 22px "Space Grotesk",sans-serif;margin-bottom:4px}
+.ky-role{font-size:13px;color:var(--purple);margin-bottom:20px}
+.ky-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ky-stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.ky-stat-val{font:700 20px "Space Grotesk",sans-serif;color:var(--text);margin-bottom:2px}
+.ky-stat-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.online-dot{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--green)}
+.online-dot::before{content:"";width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse-green 2s ease-in-out infinite}
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;transition:all .25s;text-decoration:none;color:inherit;display:block;cursor:pointer}
+.project-card:hover{border-color:rgba(139,92,246,.4);box-shadow:0 0 30px rgba(139,92,246,.08);transform:translateY(-3px)}
+.project-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.project-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.project-status{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font:600 10px "Inter",sans-serif;letter-spacing:.06em}
+.status-live{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.status-live::before{content:"";width:5px;height:5px;background:var(--green);border-radius:50%;animation:pulse-green 2s ease-in-out infinite}
+.status-dev{background:rgba(240,192,64,.1);color:var(--gold);border:1px solid rgba(240,192,64,.25)}
+.project-name{font:700 17px "Space Grotesk",sans-serif;margin-bottom:6px}
+.project-desc{font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:16px}
+.project-stack{display:flex;flex-wrap:wrap;gap:6px}
+.stack-badge{padding:3px 10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;font:500 11px "Inter",sans-serif;color:var(--dim)}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.skill-group{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px}
+.skill-group-title{font:700 14px "Space Grotesk",sans-serif;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.skill-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.skill-name{font:500 13px "Inter",sans-serif;color:var(--dim)}
+.skill-bar-wrap{width:100px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.skill-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--purple),#c084fc)}
+
+/* CONTACT */
+.contact-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:52px;text-align:center;position:relative;overflow:hidden}
+.contact-card::before{content:"";position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:300px;background:radial-gradient(ellipse,rgba(139,92,246,.12),transparent 70%);pointer-events:none}
+.contact-card h2{font:700 36px "Space Grotesk",sans-serif;letter-spacing:-.02em;margin-bottom:12px}
+.contact-card p{color:var(--dim);margin-bottom:32px;font-size:16px}
+.contact-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.contact-link{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:10px;font:600 13px "Inter",sans-serif;color:var(--text);text-decoration:none;transition:all .2s}
+.contact-link:hover{border-color:var(--purple);color:var(--purple);background:rgba(139,92,246,.08)}
+.contact-link svg{width:16px;height:16px;fill:currentColor}
+
+/* FOOTER */
+footer{padding:32px 24px;border-top:1px solid var(--border);position:relative;z-index:1}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font:400 13px "Inter",sans-serif;color:var(--dim)}
+.footer-built{font:400 13px "Inter",sans-serif;color:var(--dim);display:flex;align-items:center;gap:6px}
+.footer-heart{color:var(--purple)}
+
+/* SCROLL ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.fade-up.visible{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-card{padding:32px 20px}
+  .footer-inner{flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><span class="dot"></span>KY</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Crypto Enthusiast &amp; Web3 Builder</div>
+    <h1>Hi, I&rsquo;m <span>KY</span>.<br>Exploring the decentralized frontier.</h1>
+    <p class="hero-sub">Deep in the crypto rabbit hole &mdash; DeFi protocols, on-chain analysis, smart contracts, and everything in between. Building at the intersection of code and finance.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        View Projects
+      </a>
+      <a href="#contact" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Contact Me
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll<br>&#8595;</div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stats-grid">
+      <div class="stat-card fade-up"><div class="stat-num">3+</div><div class="stat-label">Years in Crypto</div></div>
+      <div class="stat-card fade-up"><div class="stat-num">15+</div><div class="stat-label">Chains Explored</div></div>
+      <div class="stat-card fade-up"><div class="stat-num">100+</div><div class="stat-label">Airdrops Tracked</div></div>
+      <div class="stat-card fade-up"><div class="stat-num">24/7</div><div class="stat-label">On-chain Activity</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">Crypto native.<br>Builder mindset.</h2>
+        <p>I&rsquo;m <strong>KY</strong>, a crypto enthusiast based in Indonesia. I&rsquo;ve been deep in the Web3 space &mdash; studying protocols, farming airdrops, building tools, and staying ahead of the curve.</p>
+        <p>From DeFi yield strategies to NFT analytics and on-chain data, I live and breathe the decentralized ecosystem. When I&rsquo;m not tracking whale wallets, I&rsquo;m building projects that make Web3 more accessible.</p>
+        <p>Always looking for the next alpha. <strong>GM.</strong></p>
+        <div class="about-tags">
+          <span class="tag">DeFi</span>
+          <span class="tag">NFT</span>
+          <span class="tag">Airdrop Hunter</span>
+          <span class="tag">Smart Contracts</span>
+          <span class="tag">Web3 Dev</span>
+          <span class="tag">On-chain Analytics</span>
+          <span class="tag">Multi-chain</span>
+        </div>
+      </div>
+      <div class="about-visual fade-up">
+        <div class="ky-card">
+          <div class="ky-avatar">KY</div>
+          <div class="ky-name">KY</div>
+          <div class="ky-role">Crypto Enthusiast &bull; Web3 Builder</div>
+          <div class="online-dot" style="margin-bottom:20px">Online &bull; Open to opportunities</div>
+          <div class="ky-stats">
+            <div class="ky-stat"><div class="ky-stat-val">ETH</div><div class="ky-stat-lbl">Maxi</div></div>
+            <div class="ky-stat"><div class="ky-stat-val">IDR</div><div class="ky-stat-lbl">Based in ID</div></div>
+            <div class="ky-stat"><div class="ky-stat-val">&#9679;</div><div class="ky-stat-lbl">Active</div></div>
+            <div class="ky-stat"><div class="ky-stat-val">gm</div><div class="ky-stat-lbl">Every Day</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background:var(--surface)">
+  <div class="container">
+    <div class="section-label fade-up">Projects</div>
+    <h2 class="section-title fade-up">What I&rsquo;ve been building</h2>
+    <p class="section-sub fade-up">A mix of Web3 tools, analytics dashboards, and experiments in the crypto space.</p>
+    <div class="projects-grid">
+      <div class="project-card fade-up">
+        <div class="project-top">
+          <div class="project-icon" style="background:rgba(139,92,246,.15)">&#9881;</div>
+          <span class="project-status status-live">LIVE</span>
+        </div>
+        <div class="project-name">SUPERAGENT 4.2</div>
+        <p class="project-desc">Production-grade autonomous agent brain for crypto operations &mdash; DeFi, NFT, airdrop intelligence, on-chain monitoring across 15+ chains.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Python</span>
+          <span class="stack-badge">Web3.py</span>
+          <span class="stack-badge">Multi-chain</span>
+          <span class="stack-badge">AI</span>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-top">
+          <div class="project-icon" style="background:rgba(240,192,64,.12)">&#128142;</div>
+          <span class="project-status status-live">LIVE</span>
+        </div>
+        <div class="project-name">Airdrop Tracker</div>
+        <p class="project-desc">Personal system for tracking airdrop eligibility, sybil self-audit, claim windows, and exit strategies across major protocols.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Ethereum</span>
+          <span class="stack-badge">Base</span>
+          <span class="stack-badge">Arbitrum</span>
+          <span class="stack-badge">Solana</span>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-top">
+          <div class="project-icon" style="background:rgba(59,130,246,.12)">&#128200;</div>
+          <span class="project-status status-dev">IN DEV</span>
+        </div>
+        <div class="project-name">Whale Watcher</div>
+        <p class="project-desc">Real-time on-chain monitoring dashboard tracking smart money movements, mempool activity, and whale wallet behavior.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Nansen</span>
+          <span class="stack-badge">Arkham</span>
+          <span class="stack-badge">Dune</span>
+          <span class="stack-badge">WebSocket</span>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-top">
+          <div class="project-icon" style="background:rgba(34,197,94,.12)">&#9876;</div>
+          <span class="project-status status-dev">IN DEV</span>
+        </div>
+        <div class="project-name">AETERNOS Online</div>
+        <p class="project-desc">Browser-based MMORPG with crypto-native mechanics &mdash; 55 skill modules, 5-floor dungeon, boss combat, and full Web3 economy design.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Phaser 3</span>
+          <span class="stack-badge">JavaScript</span>
+          <span class="stack-badge">Web Audio</span>
+          <span class="stack-badge">Capacitor</span>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-top">
+          <div class="project-icon" style="background:rgba(239,68,68,.12)">&#128293;</div>
+          <span class="project-status status-live">LIVE</span>
+        </div>
+        <div class="project-name">DeFi Dashboard</div>
+        <p class="project-desc">Personal yield farming tracker aggregating positions across Aave, Uniswap V3, GMX, and Hyperliquid with P&amp;L analytics.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Aave</span>
+          <span class="stack-badge">GMX</span>
+          <span class="stack-badge">Hyperliquid</span>
+          <span class="stack-badge">Pendle</span>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-top">
+          <div class="project-icon" style="background:rgba(192,132,252,.12)">&#128640;</div>
+          <span class="project-status status-dev">IN DEV</span>
+        </div>
+        <div class="project-name">CTF Solver</div>
+        <p class="project-desc">Automated CTF framework for whitehat challenges &mdash; web exploitation, cryptography, prompt injection, and Gandalf solver.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Python</span>
+          <span class="stack-badge">Docker</span>
+          <span class="stack-badge">RSA</span>
+          <span class="stack-badge">LLM Red-team</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label fade-up">Skills</div>
+    <h2 class="section-title fade-up">Tech stack &amp; expertise</h2>
+    <p class="section-sub fade-up">Built through years of hands-on crypto research and development.</p>
+    <div class="skills-grid">
+      <div class="skill-group fade-up">
+        <div class="skill-group-title">&#128142; Blockchain</div>
+        <div class="skill-item"><span class="skill-name">Ethereum / EVM</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:92%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Solana</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Smart Contracts</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Multi-chain Ops</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></div>
+      </div>
+      <div class="skill-group fade-up">
+        <div class="skill-group-title">&#128200; DeFi</div>
+        <div class="skill-item"><span class="skill-name">Yield Farming</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Liquidity Mgmt</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Airdrop Strategy</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:95%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">On-chain Analytics</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+      </div>
+      <div class="skill-group fade-up">
+        <div class="skill-group-title">&#128187; Development</div>
+        <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">JavaScript</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Web3.py / Ethers</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Automation</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></div>
+      </div>
+      <div class="skill-group fade-up">
+        <div class="skill-group-title">&#128270; Research</div>
+        <div class="skill-item"><span class="skill-name">Tokenomics</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:87%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Security Auditing</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Alpha Research</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:91%"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Market Analysis</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:84%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--surface)">
+  <div class="container">
+    <div class="contact-card fade-up">
+      <div class="section-label" style="margin-bottom:12px">Contact</div>
+      <h2>Let&rsquo;s connect.</h2>
+      <p>Whether it&rsquo;s a collab, alpha share, or just a gm &mdash; always down to talk crypto.</p>
+      <div class="contact-links">
+        <a href="https://github.com/HydraSql" target="_blank" class="contact-link">
+          <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="mailto:rittakiki7@gmail.com" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Email
+        </a>
+        <a href="https://t.me/" target="_blank" class="contact-link">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.04 13.98l-2.947-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.537-.194 1.006.131.1.577z"/></svg>
+          Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 KY &mdash; kydra.my.id</div>
+    <div class="footer-built">Built with <span class="footer-heart">&#9829;</span> on-chain</div>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+// Fade-up observer
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+// Smooth nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
